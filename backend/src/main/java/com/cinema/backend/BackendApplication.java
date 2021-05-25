@@ -1,6 +1,7 @@
 package com.cinema.backend;
 
 import com.cinema.backend.entities.Film;
+import com.cinema.backend.entities.Salle;
 import com.cinema.backend.services.ICinemaInitService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class BackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		restConfiguration.exposeIdsFor(Film.class);
+		restConfiguration.exposeIdsFor(Film.class, Salle.class);
 		initService.initVilles();
 		initService.initCinemas();
 		initService.initSalles();
