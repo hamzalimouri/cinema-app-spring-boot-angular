@@ -1,1 +1,83 @@
-<p>cinema works!</p>
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-md-3">
+      <ul *ngIf="villes" class="list-group">
+        <li
+          [ngClass]="currentVille == v ? 'active' : ''"
+          *ngFor="let v of villes._embedded.villes"
+          class="list-group-item"
+          (click)="onGetCinemas(v)"
+        >
+          {{ v.name }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header">Liste des Cinemas</div>
+        <div class="card-body">
+          <ul *ngIf="cinemas" class="nav nav-tabs">
+            <li *ngFor="let c of cinemas._embedded.cinemas" class="nav-item">
+              <a
+                [ngClass]="currentCinema == c ? 'active nav-link' : 'nav-link'"
+                (click)="onGetSalles(c)"
+                >{{ c.name }}</a
+              >
+            </li>
+          </ul>
+          <div class="row" *ngIf="salles">
+            <div class="col-md-6" *ngFor="let s of salles._embedded.salles">
+              <div class="card">
+                <div class="card-header">
+                  {{ s.name }}
+                </div>
+                <div class="card-body" *ngIf="s.projections">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <img
+                        src="{{
+                          cinemaService.host +
+                            '/imageFilm/' +
+                            s.projections._embedded.projections[0].film.id
+                        }}"
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group">
+                        <li class="list-group-item">Seances:</li>
+                        <li
+                          [ngClass]="currentProjection == p ? 'active' : ''"
+                          class="list-group-item seance-infos"
+                          *ngFor="let p of s.projections._embedded.projections"
+                          (click)="onGetTicketsPlaces(p)"
+                        >
+                          {{ p.seance.heureDebut }} => Prix:
+                          {{ p.prix | number: "0.00" }}DH
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div *ngIf="currentProjection">
+                    <div *ngIf="currentProjection.salle.id == s.id">
+                      <div class="row" *ngIf="currentProjection.tickets">
+                        <button
+                          type="button"
+                          class="btn btn-success"
+                          *ngFor="
+                            let t of currentProjection.tickets._embedded.tickets
+                          "
+                        >
+                          {{ t.place.numero }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
