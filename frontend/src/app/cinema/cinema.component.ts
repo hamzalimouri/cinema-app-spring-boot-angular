@@ -16,6 +16,7 @@ export class CinemaComponent implements OnInit {
   public currentCinema: any;
   public currentProjection: any;
   public currentSalles: any;
+  public selectedTickets: any;
   constructor(public cinemaService: CinemaService) { }
 
   ngOnInit(): void {
@@ -65,8 +66,34 @@ export class CinemaComponent implements OnInit {
     // tslint:disable-next-line:no-shadowed-variable
         .subscribe(data => {
           this.currentProjection.tickets = data;
+          this.selectedTickets = [];
         }, err => {
           console.log(err);
         });
+  }
+  // tslint:disable-next-line:typedef
+  onSelectTicket(t: any){
+    if (!t.selected){
+      t.selected = true;
+      this.selectedTickets.push(t);
+    }else{
+      t.selected = false;
+      this.selectedTickets.splice(this.selectedTickets.indexOf(t));
+    }
+    console.log(this.selectedTickets);
+  }
+
+
+  // tslint:disable-next-line:typedef
+  getTicketClass(t: any){
+    let str = 'btn ticket ';
+    if (t.reserve){
+      str += 'btn-danger';
+    }else if (t.selected){
+      str += 'btn-warning';
+    }else{
+      str += 'btn-success';
+    }
+    return str;
   }
 }

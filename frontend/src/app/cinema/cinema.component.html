@@ -62,7 +62,9 @@
                       <div class="row" *ngIf="currentProjection.tickets">
                         <button
                           type="button"
-                          class="btn btn-success"
+                          class="{{ getTicketClass(t) }}"
+                          (click)="onSelectTicket(t)"
+                          [disabled]="t.reserve"
                           *ngFor="
                             let t of currentProjection.tickets._embedded.tickets
                           "
