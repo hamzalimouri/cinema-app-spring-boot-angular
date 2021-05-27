@@ -52,6 +52,7 @@ public class CinemaRestController {
         ticketForm.getTickets().forEach(idTicket -> {
             Ticket ticket = ticketRepository.findById(idTicket).get();
             ticket.setNomClient(ticketForm.getNameClient());
+            ticket.setCodePayement(ticketForm.getCodePayement());
             ticket.setReserve(true);
             ticketRepository.save(ticket);
             listTickets.add(ticket);
@@ -63,5 +64,6 @@ public class CinemaRestController {
 @Data
 class TicketForm implements Serializable {
     private String nameClient;
+    private int codePayement;
     private List<Long> tickets = new ArrayList<Long>();
 }
