@@ -78,9 +78,8 @@ export class CinemaComponent implements OnInit {
       this.selectedTickets.push(t);
     }else{
       t.selected = false;
-      this.selectedTickets.splice(this.selectedTickets.indexOf(t));
+      this.selectedTickets.splice(this.selectedTickets.indexOf(t), 1);
     }
-    console.log(this.selectedTickets);
   }
 
 
@@ -95,5 +94,22 @@ export class CinemaComponent implements OnInit {
       str += 'btn-success';
     }
     return str;
+  }
+
+  // tslint:disable-next-line:typedef
+  onPayTickets(dataForm: any){
+    // tslint:disable-next-line:prefer-const
+    let tickets: any[] = [];
+    this.selectedTickets.forEach((ticket: any) => {
+      tickets.push(ticket.id);
+    });
+    dataForm.tickets = tickets;
+    this.cinemaService.payTickets(dataForm)
+    .subscribe(data => {
+        alert('Tickets reserved with success');
+        this.onGetTicketsPlaces(this.currentProjection);
+      }, err => {
+        console.log(err);
+      });
   }
 }

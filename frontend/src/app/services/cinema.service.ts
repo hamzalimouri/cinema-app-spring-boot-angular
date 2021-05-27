@@ -33,4 +33,9 @@ export class CinemaService {
     const url = p._links.tickets.href.replace('{?projection}', '');
     return this.http.get(url + '?projection=pticket');
   }
+
+  // tslint:disable-next-line:typedef
+  public payTickets(data: any){
+    return this.http.post(this.host + '/payerTickets', data);
+  }
 }
